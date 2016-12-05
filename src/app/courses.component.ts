@@ -1,11 +1,9 @@
-import{Component, OnInit} from '@angular/core';
-import{CalendarService} from './calendar.service';
-import{AutoGrowDirective} from './auto-grow.directive';
-import { ISteps } from './steps';
+import{Component} from '@angular/core'
+import{CourseService} from './course.service'
+import{AutoGrowDirective} from './auto-grow.directive'
 
 @Component({
 	selector: 'days',
-	styleUrls: ['./calendar.component.css'],
 	template: `
 	<h2>Edit your steps for the Month</h2>
 	<br>
@@ -33,24 +31,23 @@ import { ISteps } from './steps';
 <ul class="days"> 
   <li *ngFor="let notDay of notDays">
   <li *ngFor="let day of days">{{ day }} 
-  <input type="text" *ngIf="stepsList" class="error" id="{{ day }}" value="{{ stepsList[day].steps }}">
+  <input type="text" id="{{ day }}" value="{{steps[day]}}">
   </li>
 </ul>
 <br>
 <button type="button">Submit</button>
 <button type="button">Logout</button>
 <button type="button">Change User</button>
-	`
+	`	
 })
-
-export class CalendarComponent {
+export class CoursesComponent{
+	courseService: CourseService;
 	title: string;
 	days: string[];
 	notDays: string[];
 	month: string;
 	year: string;
-	stepsList: ISteps[];
-	errorMessage: string;
+	steps: string[];
 	calendarDate: Date;
 	monthNames: Array<string> = [
     	"January", "February", "March",
@@ -59,9 +56,9 @@ export class CalendarComponent {
     	"October", "November", "December"
 		];
 
-	constructor(private calendarService: CalendarService){	
+	constructor(courseService: CourseService){	
 		this.calendarDate = new Date();	
-		this.calendarService = calendarService;
+		this.courseService = courseService;
 		this.populateScreen();		
 	}
 
@@ -96,18 +93,10 @@ export class CalendarComponent {
 	}
 
 	populateScreen(){
-		// this.steps = this.calendarService.getStepsPerMonth(this.calendarDate);
+		this.steps = this.courseService.getSteps();
 		this.daysInMonth();
 		this.month = this.getMonthName();
 		this.year = this.calendarDate.getFullYear().toString();
 		this.calculateNotDays();
-		this.calendarService.getStepsPerMonth(this.calendarDate)
-                .subscribe(stepsList => this.stepsList = stepsList,
-                           error => this.errorMessage = <any>error);
 	}
-
-	    ngOnInit(): void {
-        this.populateScreen();
-    }
-
 }

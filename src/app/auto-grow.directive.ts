@@ -7,15 +7,15 @@ import {Directive, ElementRef, Input, Renderer} from '@angular/core'
 		'(blur)': 'onBlur()'
 	}
 })
-export class AutoGrowDirective {
+export class AutoGrowDirective{
 	constructor(private el: ElementRef, private renderer: Renderer){
 
 	}
-	onFocus() {
+	onFocus(){
 		this.renderer.setElementStyle(this.el.nativeElement, 'width', '200');
 	}
 
-	onBlur() {
+	onBlur(){
 		this.renderer.setElementStyle(this.el.nativeElement, 'width', '120');
 	}
 }

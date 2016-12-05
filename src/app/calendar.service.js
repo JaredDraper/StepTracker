@@ -17,25 +17,18 @@ require('rxjs/add/operator/catch');
 var CalendarService = (function () {
     function CalendarService(_http) {
         this._http = _http;
-        this._stepsUrl = 'api/steps/steps.json';
+        this._productUrl = 'api/steps/steps.json';
     }
     // getSteps() : string[] {
     // 	return [" ","1000","2000","3000","4000","5000","6000","7000","8000","9000","1000", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
     // }
     CalendarService.prototype.getStepsPerMonth = function (date) {
-        return this._http.get(this._stepsUrl)
-            .map(this.extractData)
-            .catch(this.handleError);
-        // return this._http.get(this._productUrl).map((response: Response) => <ISteps[]>response.json())
-        // .do(data => console.log('All: ' + JSON.stringify(data))).catch(this.handleError);
+        return this._http.get(this._productUrl).map(function (response) { return response.json(); })
+            .do(function (data) { return console.log('All: ' + JSON.stringify(data)); }).catch(this.handleError);
     };
     CalendarService.prototype.handleError = function (error) {
         console.error(error);
         return Observable_1.Observable.throw(error.json().error || 'Server error');
-    };
-    CalendarService.prototype.extractData = function (res) {
-        var body = res.json();
-        return body.data || {};
     };
     CalendarService = __decorate([
         core_1.Injectable(), 

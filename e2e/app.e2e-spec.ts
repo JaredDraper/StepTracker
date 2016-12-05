@@ -1,10 +1,10 @@
-import { StepTrackerFrontEndPage } from './app.po';
+import { StepTrackerPage } from './app.po';
 
-describe('step-tracker-front-end App', function() {
-  let page: StepTrackerFrontEndPage;
+describe('step-tracker App', function() {
+  let page: StepTrackerPage;
 
   beforeEach(() => {
-    page = new StepTrackerFrontEndPage();
+    page = new StepTrackerPage();
   });
 
   it('should display message saying app works', () => {

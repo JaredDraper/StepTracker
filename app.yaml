@@ -1,8 +1,30 @@
-application: fit-aleph-149819
-version: 1
-runtime: python
-api_version: 1
+# [START runtime]
+runtime: python27
+threadsafe: yes
+# [END runtime]
 
 handlers:
-- url: /.*
-  script: helloworld.py
+
+- url: /(.+)
+  static_files: dist/\1
+  upload: dist/(.*)
+
+- url: /
+  static_files: dist/index.html
+  upload: dist/index.html
+
+# Temporary setting to keep gcloud from uploading not required files for deployment
+skip_files:
+- ^node_modules$
+- ^app\.yaml
+- ^README\..*
+- \.gitignore
+- ^\.git$
+- ^grunt\.js
+- ^src$
+- ^e2e$
+- \.editorconfig
+- ^karma\.config\.js
+- ^package\.json
+- ^protractor\.conf\.js
+- ^tslint\.json

@@ -12,13 +12,51 @@ var core_1 = require('@angular/core');
 var course_service_1 = require('./course.service');
 var CoursesComponent = (function () {
     function CoursesComponent(courseService) {
-        this.title = "The title of courses page";
-        this.courses = courseService.getCourses();
+        this.monthNames = [
+            "January", "February", "March",
+            "April", "May", "June",
+            "July", "August", "September",
+            "October", "November", "December"
+        ];
+        this.calendarDate = new Date();
+        this.courseService = courseService;
+        this.populateScreen();
     }
+    CoursesComponent.prototype.getMonthName = function () {
+        return this.monthNames[this.calendarDate.getMonth()];
+    };
+    // pass in any date as parameter anyDateInMonth
+    CoursesComponent.prototype.daysInMonth = function () {
+        this.days = [];
+        for (var i = 1; i <= new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth() + 1, 0).getDate(); i++) {
+            this.days.push((i).toString());
+        }
+    };
+    CoursesComponent.prototype.calculateNotDays = function () {
+        this.notDays = [];
+        for (var i = 1; i < new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth(), 1).getDay() + 1; i++) {
+            this.notDays.push(i.toString());
+        }
+    };
+    CoursesComponent.prototype.getPreviousMonth = function () {
+        this.calendarDate = new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth() - 1, this.calendarDate.getDay());
+        this.populateScreen();
+    };
+    CoursesComponent.prototype.getNextMonth = function () {
+        this.calendarDate = new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth() + 1, this.calendarDate.getDay());
+        this.populateScreen();
+    };
+    CoursesComponent.prototype.populateScreen = function () {
+        this.steps = this.courseService.getSteps();
+        this.daysInMonth();
+        this.month = this.getMonthName();
+        this.year = this.calendarDate.getFullYear().toString();
+        this.calculateNotDays();
+    };
     CoursesComponent = __decorate([
         core_1.Component({
-            selector: 'courses',
-            template: "\n\t<h2>Courses</h2>\n\t{{ title }}\n\t<input type=\"text\" autoGrow />\n\t<ul>\n\t\t<li *ngFor=\"let course of courses\">{{ course }}</li>\n\t\t\n\t</ul>\n\t"
+            selector: 'days',
+            template: "\n\t<h2>Edit your steps for the Month</h2>\n\t<br>\n\t<div class=\"month\"> \n  <ul>\n    <li class=\"prev\" (click)=\"getPreviousMonth()\">&#10094;</li>\n    <li class=\"next\" (click)=\"getNextMonth()\">&#10095;</li>\n    <li>\n      {{ month }}<br>\n      <span style=\"font-size:18px\">{{ year }}</span>\n    </li>\n  </ul>\n</div>\n\n<ul class=\"weekdays\">\n  <li>Su</li>\n  <li>Mo</li>\n  <li>Tu</li>\n  <li>We</li>\n  <li>Th</li>\n  <li>Fr</li>\n  <li>Sa</li> \n</ul>\n\n<ul class=\"days\"> \n  <li *ngFor=\"let notDay of notDays\">\n  <li *ngFor=\"let day of days\">{{ day }} \n  <input type=\"text\" id=\"{{ day }}\" value=\"{{steps[day]}}\">\n  </li>\n</ul>\n<br>\n<button type=\"button\">Submit</button>\n<button type=\"button\">Logout</button>\n<button type=\"button\">Change User</button>\n\t"
         }), 
         __metadata('design:paramtypes', [course_service_1.CourseService])
     ], CoursesComponent);

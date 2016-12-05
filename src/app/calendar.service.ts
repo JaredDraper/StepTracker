@@ -8,30 +8,22 @@ import 'rxjs/add/operator/catch';
 import{ ISteps } from './steps';
 
 @Injectable()
-export class CalendarService {
-private _stepsUrl = 'api/steps/steps.json';
+export class CalendarService{
+	private _productUrl = 'api/steps/steps.json';
 
-constructor(private _http: Http) {}
+	constructor(private _http: Http){}
 
 	// getSteps() : string[] {
- // 	return [" ","1000","2000","3000","4000","5000","6000","7000","8000","9000","1000", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+	// 	return [" ","1000","2000","3000","4000","5000","6000","7000","8000","9000","1000", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 	// }
 
-getStepsPerMonth(date: Date): Observable<ISteps[]> {
-return this._http.get(this._stepsUrl)
-                    .map(this.extractData)
-                    .catch(this.handleError);
-		// return this._http.get(this._productUrl).map((response: Response) => <ISteps[]>response.json())
-		// .do(data => console.log('All: ' + JSON.stringify(data))).catch(this.handleError);
-}
+	getStepsPerMonth(date: Date) : Observable<ISteps[]> {
+		return this._http.get(this._productUrl).map((response: Response) => <ISteps[]>response.json())
+		.do(data => console.log('All: ' + JSON.stringify(data))).catch(this.handleError);
+	}
 
-private handleError(error: Response) {
-console.error(error);
-return Observable.throw(error.json().error || 'Server error');
-}
-
-private extractData(res: Response) {
-    let body = res.json();
-    return body.data || { };
-  }
+	private handleError(error: Response){
+		console.error(error);
+		return Observable.throw(error.json().error || 'Server error');
+	}
 }

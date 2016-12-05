@@ -12,8 +12,11 @@ var core_1 = require('@angular/core');
 var CourseService = (function () {
     function CourseService() {
     }
-    CourseService.prototype.getCourses = function () {
-        return ["Course1", "Course2", "Course3"];
+    CourseService.prototype.getSteps = function () {
+        return [" ", "1000", "2000", "3000", "4000", "5000", "6000", "7000", "8000", "9000", "1000", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+    };
+    CourseService.prototype.getMonth = function () {
+        return "December";
     };
     CourseService = __decorate([
         core_1.Injectable(), 

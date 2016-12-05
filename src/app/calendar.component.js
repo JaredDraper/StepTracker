@@ -21,6 +21,7 @@ var CalendarComponent = (function () {
         ];
         this.calendarDate = new Date();
         this.calendarService = calendarService;
+        this.populateScreen();
     }
     CalendarComponent.prototype.getMonthName = function () {
         return this.monthNames[this.calendarDate.getMonth()];
@@ -47,22 +48,21 @@ var CalendarComponent = (function () {
         this.populateScreen();
     };
     CalendarComponent.prototype.populateScreen = function () {
-        var _this = this;
         // this.steps = this.calendarService.getStepsPerMonth(this.calendarDate);
         this.daysInMonth();
         this.month = this.getMonthName();
         this.year = this.calendarDate.getFullYear().toString();
         this.calculateNotDays();
-        this.calendarService.getStepsPerMonth(this.calendarDate)
-            .subscribe(function (stepsList) { return _this.stepsList = stepsList; }, function (error) { return _this.errorMessage = error; });
     };
     CalendarComponent.prototype.ngOnInit = function () {
-        this.populateScreen();
+        var _this = this;
+        this.calendarService.getStepsPerMonth(this.calendarDate)
+            .subscribe(function (stepsList) { return _this.stepsList = stepsList; }, function (error) { return _this.errorMessage = error; });
     };
     CalendarComponent = __decorate([
         core_1.Component({
             selector: 'days',
-            template: "\n\t<h2>Edit your steps for the Month</h2>\n\t<br>\n\t<div class=\"month\"> \n  <ul>\n    <li class=\"prev\" (click)=\"getPreviousMonth()\">&#10094;</li>\n    <li class=\"next\" (click)=\"getNextMonth()\">&#10095;</li>\n    <li>\n      {{ month }}<br>\n      <span style=\"font-size:18px\">{{ year }}</span>\n    </li>\n  </ul>\n</div>\n\n<ul class=\"weekdays\">\n  <li>Su</li>\n  <li>Mo</li>\n  <li>Tu</li>\n  <li>We</li>\n  <li>Th</li>\n  <li>Fr</li>\n  <li>Sa</li> \n</ul>\n\n<ul class=\"days\"> \n  <li *ngFor=\"let notDay of notDays\">\n  <li *ngFor=\"let day of days\">{{ day }} \n  <input type=\"text\" *ngIf=\"stepsList\" class=\"error\" id=\"{{ day }}\" value=\"{{ stepsList[day].steps }}\">\n  </li>\n</ul>\n<br>\n<button type=\"button\">Submit</button>\n<button type=\"button\">Logout</button>\n<button type=\"button\">Change User</button>\n\t"
+            template: "\n\t<h2>Edit your steps for the Month</h2>\n\t<br>\n\t<div class=\"month\"> \n  <ul>\n    <li class=\"prev\" (click)=\"getPreviousMonth()\">&#10094;</li>\n    <li class=\"next\" (click)=\"getNextMonth()\">&#10095;</li>\n    <li>\n      {{ month }}<br>\n      <span style=\"font-size:18px\">{{ year }}</span>\n    </li>\n  </ul>\n</div>\n\n<ul class=\"weekdays\">\n  <li>Su</li>\n  <li>Mo</li>\n  <li>Tu</li>\n  <li>We</li>\n  <li>Th</li>\n  <li>Fr</li>\n  <li>Sa</li> \n</ul>\n\n<ul class=\"days\"> \n  <li *ngFor=\"let notDay of notDays\">\n  <li *ngFor=\"let day of days\">{{ day }} \n  <input type=\"text\" id=\"{{ day }}\" value=\"{{ stepsList[day] }}\">\n  </li>\n</ul>\n<br>\n<button type=\"button\">Submit</button>\n<button type=\"button\">Logout</button>\n<button type=\"button\">Change User</button>\n\t"
         }), 
         __metadata('design:paramtypes', [calendar_service_1.CalendarService])
     ], CalendarComponent);

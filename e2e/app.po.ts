@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class StepTrackerFrontEndPage {
+export class StepTrackerPage {
   navigateTo() {
     return browser.get('/');
   }
