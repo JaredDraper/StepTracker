@@ -13,11 +13,7 @@ export class CalendarService{
 
 	constructor(private _http: Http){}
 
-	// getSteps() : string[] {
-	// 	return [" ","1000","2000","3000","4000","5000","6000","7000","8000","9000","1000", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
-	// }
-
-	getStepsPerMonth(date: Date) : Observable<ISteps[]> {
+	private getStepsPerMonth(date: Date) : Observable<ISteps[]> {
 		return this._http.get(this._productUrl).map((response: Response) => <ISteps[]>response.json())
 		.do(data => console.log('All: ' + JSON.stringify(data))).catch(this.handleError);
 	}
@@ -26,4 +22,12 @@ export class CalendarService{
 		console.error(error);
 		return Observable.throw(error.json().error || 'Server error');
 	}
+
+	private updateStepsPerMonth(updatedSteps: ISteps[]): Observable<ISteps[]> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this._http.post(this._productUrl, { updatedSteps }, options)
+                    .map(this.extractData).catch(this.handleError);
+  	}
 }

@@ -37,7 +37,7 @@ import { ISteps } from './steps';
   </li>
 </ul>
 <br>
-<button type="button">Submit</button>
+<button type="button" (click)="submitSteps()">Submit</button>
 <button type="button">Logout</button>
 <button type="button">Change User</button>
 	`
@@ -95,8 +95,18 @@ export class CalendarComponent {
 		this.populateScreen();
 	}
 
+	submitSteps(){	 
+		for(var day of this.days){
+			let newCount = (<HTMLInputElement>document.getElementById(day));
+			this.stepsList[day].steps = newCount.value;
+		}
+		if (!this.stepsList) { return; }
+		this.calendarService.updateStepsPerMonth(this.stepsList)
+		.subscribe(stepsList => this.stepsList = stepsList,
+                           error => this.errorMessage = <any>error);
+	}
+
 	populateScreen(){
-		// this.steps = this.calendarService.getStepsPerMonth(this.calendarDate);
 		this.daysInMonth();
 		this.month = this.getMonthName();
 		this.year = this.calendarDate.getFullYear().toString();
