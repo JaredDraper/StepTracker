@@ -33,7 +33,7 @@ import { ISteps } from './steps';
 <ul class="days"> 
   <li *ngFor="let notDay of notDays">
   <li *ngFor="let day of days">{{ day }} 
-  <input type="text" *ngIf="stepsList" class="error" id="{{ day }}" value="{{ stepsList[day].steps }}">
+  <input type="text" *ngIf="stepsList" class="error" id="{{ day }}" value="{{ stepsList[day].amount }}">
   </li>
 </ul>
 <br>
