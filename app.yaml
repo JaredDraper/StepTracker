@@ -7,12 +7,12 @@ threadsafe: yes
 handlers:
 
 - url: /(.+)
-  static_files: dist/\1
-  upload: dist/(.*)
+  static_files: Angular/dist/\1
+  upload: Angular/dist/(.*)
 
 - url: /
-  static_files: dist/index.html
-  upload: dist/index.html
+  static_files: Angular/dist/index.html
+  upload: Angular/dist/index.html
 
 # Temporary setting to keep gcloud from uploading not required files for deployment
 skip_files:

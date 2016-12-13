@@ -16,6 +16,10 @@
 
 package com.fitness;
 
+import com.fitness.model.ISteps;
+
+import com.fitness.repository.StepsRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,26 +31,38 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.fitness.model.ISteps;
-import com.fitness.repository.StepsRepository;
 
-@Path("steps")//
+/**
+ * DOCUMENT ME!
+ *
+ * @author  JDraper
+ */
+@Path("/steps") //
+public class StepsResource {
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/test")
+    public List<ISteps> getSteps() {
+        return StepsRepository.findStepsPerMonth("567");
+    }
 
-public class StepsResource{
-	
-	@GET 
-	@Produces(MediaType.APPLICATION_JSON)
-	@Path("{monthYear}")
-	public List<ISteps> getSteps(@PathParam("monthYear") String monthYear){
-		
-		return StepsRepository.findStepsPerMonth(monthYear);
-	}
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{monthYear}")
+    public List<ISteps> getSteps(@PathParam("monthYear") String monthYear) {
+        return StepsRepository.findStepsPerMonth(monthYear);
+    }
 
-	@POST
-	@Path("submit")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public void submitSteps(ArrayList<ISteps> stepsList){
-		System.out.println(stepsList);		
-	}
-  
+    /**
+     * Creates a new StepsResource object.
+     *
+     * @param  stepsList
+     */
+    @POST
+    @Path("/submit")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public void submitSteps(List<ISteps> stepsList) {
+        System.out.println(stepsList);
+    }
 }

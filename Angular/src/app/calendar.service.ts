@@ -31,7 +31,7 @@ export class CalendarService{
         let options = new RequestOptions({ headers: headers });
         let body = JSON.stringify(updatedSteps);
 
-        return this.http.post(this._sendStepsUrl, body, options)
+        return this._http.post(this._sendStepsUrl, body, options)
                     .map((res: Response) => res.json());	
   	}
 
