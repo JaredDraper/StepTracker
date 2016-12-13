@@ -10,11 +10,11 @@ import{ ISteps } from './steps';
 
 @Injectable()
 export class CalendarService{
-	private _productUrl = 'api/steps/steps.json';
+	private _productUrl = 'http://localhost:8080/backend/fitness/steps';
 
 	constructor(private _http: Http){}
 
-	private getStepsPerMonth(date: Date) : Observable<ISteps[]> {
+	public getStepsPerMonth(date: String) : Observable<ISteps[]> {
 		return this._http.get(this._productUrl).map((response: Response) => <ISteps[]>response.json())
 		.do(data => console.log('All: ' + JSON.stringify(data))).catch(this.handleError);
 	}
@@ -24,7 +24,7 @@ export class CalendarService{
 		return Observable.throw(error.json().error || 'Server error');
 	}
 
-	private updateStepsPerMonth(updatedSteps: ISteps[]): Observable<ISteps[]> {
+	public updateStepsPerMonth(updatedSteps: ISteps[]): Observable<ISteps[]> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 

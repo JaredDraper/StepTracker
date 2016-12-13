@@ -1,5 +1,6 @@
 # [START runtime]
-runtime: python27
+runtime: java
+service: backend
 threadsafe: yes
 # [END runtime]
 
