@@ -27,11 +27,12 @@ export class CalendarService{
 
 	public updateStepsPerMonth(updatedSteps: ISteps[]): Observable<ISteps[]> {
 		console.log("Got here");
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+		let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        let body = JSON.stringify(updatedSteps);
 
-    return this._http.post(this._sendStepsUrl, { updatedSteps }, options)
-                    .map(this.extractData).catch(this.handleError);
+        return this.http.post(this._sendStepsUrl, body, options)
+                    .map((res: Response) => res.json());	
   	}
 
   	private extractData(res: Response) {

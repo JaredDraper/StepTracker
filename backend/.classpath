@@ -23,6 +23,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/GitHub/fitbit4j-master/fitbit4j/target/fitbit4j-1.0.26.jar"/>
+	<classpathentry kind="lib" path="C:/devTools/fitbit4j-1.0.26-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target/backend-1.0-SNAPSHOT/WEB-INF/classes"/>
 </classpath>
