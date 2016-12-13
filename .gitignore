@@ -1,7 +1,12 @@
 typings/
 node_modules/
 environments/
+eclipse-launch-profiles/
+.settings/
+target/
 e2e/
+Other/
+*.classpath
 *.js
 *.js.map
 
