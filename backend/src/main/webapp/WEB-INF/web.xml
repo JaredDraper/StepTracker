@@ -5,7 +5,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
          version="2.5">
      <servlet>
-        <servlet-name>stepsracker</servlet-name>
+        <servlet-name>Jersey Web Application</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
@@ -15,11 +15,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
-        <url-pattern>/*</url-pattern>
-    </servlet-mapping>
-	<servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/static/*</url-pattern>
+        <url-pattern>/fitness/*</url-pattern>
     </servlet-mapping>
 <!--   <servlet> -->
 <!--     <servlet-name>StepsResource</servlet-name> -->
@@ -33,4 +29,3 @@
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
 </web-app>
-

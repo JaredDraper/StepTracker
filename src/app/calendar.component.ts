@@ -33,13 +33,13 @@ import { ISteps } from './steps';
 <ul class="days"> 
   <li *ngFor="let notDay of notDays">
   <li *ngFor="let day of days">{{ day }} 
-  <input type="text" *ngIf="stepsList" class="error" id="{{ day }}" value="{{ stepsList[day].amount }}">
+  <input type="text" *ngIf="stepsList" class="error" id="{{ day }}" value="{{ stepsList[day-1].amount }}">
   </li>
 </ul>
 <br>
-<button type="button" (click)="submitSteps()">Submit</button>
-<button type="button">Logout</button>
-<button type="button">Change User</button>
+<button (click)="submitSteps()">Submit</button>
+<button>Logout</button>
+<button>Change User</button>
 <a target="_blank" href="https://oauth2server.com/auth?response_type=code&
   client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&scope=photos">no link here</a>
 	`
@@ -61,59 +61,57 @@ export class CalendarComponent {
     	"October", "November", "December"
 		];
 
-	constructor(private calendarService: CalendarService){	
-		this.calendarDate = new Date();	
+	constructor(private calendarService: CalendarService) {
+		this.calendarDate = new Date();
 		this.calendarService = calendarService;
-		this.populateScreen();		
+		this.populateScreen();
 	}
 
-	getMonthName(){
+	getMonthName() {
 		return this.monthNames[this.calendarDate.getMonth()];
 	}
 
 	 // pass in any date as parameter anyDateInMonth
 	daysInMonth() {
 		this.days = [];
-		for (var i = 1; i <= new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth() + 1, 0).getDate(); i++) {
-			this.days.push((i).toString());		
+		for (let i = 1; i <= new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth() + 1, 0).getDate(); i++) {
+			this.days.push((i).toString());
 		}
 	}
 
-	calculateNotDays(){
+	calculateNotDays() {
 
-		this.notDays =[];
-		for (var i = 1; i < new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth(), 1).getDay() + 1; i++) {
-			this.notDays.push(i.toString());		
+		this.notDays = [];
+		for (let i = 1; i < new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth(), 1).getDay() + 1; i++) {
+			this.notDays.push(i.toString());
 		}
 	}
 
-	getPreviousMonth(){
-		this.calendarDate = new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth()-1, this.calendarDate.getDay());
+	getPreviousMonth() {
+		this.calendarDate = new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth() - 1, this.calendarDate.getDay());
 		this.populateScreen();
 	}
 
-	getNextMonth(){
-		this.calendarDate = new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth()+1, this.calendarDate.getDay());
+	getNextMonth() {
+		this.calendarDate = new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth() + 1, this.calendarDate.getDay());
 		this.populateScreen();
 	}
 
-	submitSteps(){	 
-		for(var day of this.days){
+	submitSteps() {
+		/*for (let day of this.days){
 			let newCount = (<HTMLInputElement>document.getElementById(day));
 			this.stepsList[day].steps = newCount.value;
 		}
-		if (!this.stepsList) { return; }
-		this.calendarService.updateStepsPerMonth(this.stepsList)
-		.subscribe(stepsList => this.stepsList = stepsList,
-                           error => this.errorMessage = <any>error);
+		if (!this.stepsList) { return; }*/
+		this.calendarService.updateStepsPerMonth(this.stepsList);
 	}
 
-	populateScreen(){
+	populateScreen() {
 		this.daysInMonth();
 		this.month = this.getMonthName();
 		this.year = this.calendarDate.getFullYear().toString();
 		this.calculateNotDays();
-		this.calendarService.getStepsPerMonth(this.calendarDate.getMonth.toString() + "," + this.calendarDate.getFullYear.toString())
+		this.calendarService.getStepsPerMonth(this.calendarDate.getMonth().toString() + "," + this.calendarDate.getFullYear().toString())
                 .subscribe(stepsList => this.stepsList = stepsList,
                            error => this.errorMessage = <any>error);
 	}
