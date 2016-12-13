@@ -36,13 +36,6 @@ public class StepsResource{
 	
 	@GET 
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("test")
-	public List<ISteps> getSteps(){
-		return StepsRepository.findStepsPerMonth("567");
-	}
-	
-	@GET 
-	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{monthYear}")
 	public List<ISteps> getSteps(@PathParam("monthYear") String monthYear){
 		
@@ -52,10 +45,8 @@ public class StepsResource{
 	@POST
 	@Path("submit")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public List<ISteps> submitSteps(ArrayList<ISteps> stepsList){
-		System.out.println(stepsList);
-		return stepsList;
-		
+	public void submitSteps(ArrayList<ISteps> stepsList){
+		System.out.println(stepsList);		
 	}
   
 }
