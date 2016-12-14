@@ -20,12 +20,11 @@ import com.fitness.model.ISteps;
 
 import com.fitness.repository.StepsRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -56,13 +55,21 @@ public class StepsResource {
     /**
      * Creates a new StepsResource object.
      *
-     * @param  stepsList
+     * @param  text  stepsList
      */
-    @POST
+    // @PUT
+    // @Path("/submit")
+    // @Consumes(MediaType.APPLICATION_JSON)
+    // @Produces(MediaType.APPLICATION_JSON)
+    // public void submitSteps(List<ISteps> stepsList) {
+    // System.out.println(stepsList);
+    // }
+
+    @PUT
     @Path("/submit")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void submitSteps(List<ISteps> stepsList) {
-        System.out.println(stepsList);
+    public void submitSteps(String text) {
+        System.out.println(text);
     }
 }

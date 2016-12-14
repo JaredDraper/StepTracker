@@ -31,8 +31,20 @@ export class CalendarService{
         let options = new RequestOptions({ headers: headers });
         let body = JSON.stringify(updatedSteps);
 
-        return this._http.post(this._sendStepsUrl, body, options)
-                    .map((res: Response) => res.json());	
+        return this._http.put(this._sendStepsUrl, body, options)
+                    .map((res: Response) => res.json())
+                    .catch((error:any) => Observable.throw(error.json().error || 'Server error')); 
+  	}
+
+  		public updateString(string: String): Observable<String> {
+		console.log("Got here");
+		let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        let body = JSON.stringify(string);
+
+        return this._http.put(this._sendStepsUrl, body, options)
+                    .map((res: Response) => res.json())
+                    .catch((error:any) => Observable.throw(error.json().error || 'Server error')); 
   	}
 
   	private extractData(res: Response) {
