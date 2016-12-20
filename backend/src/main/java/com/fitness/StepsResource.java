@@ -18,13 +18,16 @@ package com.fitness;
 
 import com.fitness.model.ISteps;
 
+import com.fitness.repository.FitBitHandler;
 import com.fitness.repository.StepsRepository;
 
 import java.util.List;
 
+import javax.servlet.ServletException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -42,6 +45,14 @@ public class StepsResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/test")
     public List<ISteps> getSteps() {
+        FitBitHandler handler = new FitBitHandler();
+
+        try {
+            handler.init();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
+        // handler.service(req, res);
         return StepsRepository.findStepsPerMonth("567");
     }
 
@@ -55,21 +66,22 @@ public class StepsResource {
     /**
      * Creates a new StepsResource object.
      *
-     * @param  text  stepsList
+     * @param  stepsList  text  stepsList
      */
-    // @PUT
-    // @Path("/submit")
-    // @Consumes(MediaType.APPLICATION_JSON)
-    // @Produces(MediaType.APPLICATION_JSON)
-    // public void submitSteps(List<ISteps> stepsList) {
-    // System.out.println(stepsList);
-    // }
-
-    @PUT
+    @POST
     @Path("/submit")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void submitSteps(String text) {
-        System.out.println(text);
+    public void submitSteps(List<ISteps> stepsList) {
+        System.out.println(stepsList);
     }
+
+    // @POST
+    // @Path("/submit")
+    // @Consumes(MediaType.APPLICATION_JSON)
+    // @Produces(MediaType.APPLICATION_JSON)
+    // public String submitSteps(String text) {
+    // System.out.println(text);
+    // return text;
+    // }
 }

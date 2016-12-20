@@ -104,7 +104,9 @@ export class CalendarComponent {
 		}
 		if (!this.stepsList) { return; }*/
 		//this.calendarService.updateStepsPerMonth(this.stepsList);
-		this.calendarService.updateString("Hope");
+		this.calendarService.updateStepsPerMonth('hope');
+                //.subscribe(stepsList => this.stepsList.push(stepsList),
+                 //          error => this.errorMessage = <any>error);
 	}
 
 	populateScreen() {
