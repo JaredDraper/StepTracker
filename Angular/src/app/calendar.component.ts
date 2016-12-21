@@ -103,7 +103,10 @@ export class CalendarComponent {
 			this.stepsList[day].steps = newCount.value;
 		}
 		if (!this.stepsList) { return; }*/
-		this.calendarService.updateStepsPerMonth(this.stepsList);
+		//this.calendarService.updateStepsPerMonth(this.stepsList);
+		this.calendarService.updateStepsPerMonth('hope');
+                //.subscribe(stepsList => this.stepsList.push(stepsList),
+                 //          error => this.errorMessage = <any>error);
 	}
 
 	populateScreen() {

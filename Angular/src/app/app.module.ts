@@ -6,11 +6,12 @@ import { AppComponent }  from './app.component';
 import { CalendarComponent } from './calendar.component';
 import { AutoGrowDirective } from './auto-grow.directive';
 import { CalendarService } from './calendar.service';
+import { OAuthService } from 'angular2-oauth2/oauth-service';
 
 @NgModule({
   imports:      [ BrowserModule, HttpModule ],
   declarations: [ AppComponent, CalendarComponent, AutoGrowDirective],
   bootstrap:    [ AppComponent ],
-  providers: [CalendarService]
+  providers: [CalendarService, OAuthService]
 })
 export class AppModule { }
