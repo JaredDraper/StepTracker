@@ -18,13 +18,13 @@ export class CalendarService{
 	constructor(
 		private _http: Http,
 		private oauthService: OAuthService){
-
+		
 	}
 
 	public getStepsPerMonth(date: string) : Observable<ISteps[]> {
-		if(this.oauthService.hasValidAccessToken() == false){
+		/*if(this.oauthService.hasValidAccessToken() == false){
 			this.oauthService.initImplicitFlow();
-		}
+		}*/
 
 		let headers = new Headers({ 'Content-Type': 'application/json' });
 		headers.set('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
