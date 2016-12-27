@@ -16,14 +16,7 @@
 
 package com.fitness;
 
-import com.fitness.model.ISteps;
-
-import com.fitness.repository.FitBitHandler;
-import com.fitness.repository.StepsRepository;
-
 import java.util.List;
-
-import javax.servlet.ServletException;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -33,6 +26,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.fitness.model.ISteps;
+import com.fitness.repository.StepsRepository;
+
 
 /**
  * DOCUMENT ME!
@@ -41,18 +37,11 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/steps") //
 public class StepsResource {
+	
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/test")
     public List<ISteps> getSteps() {
-        FitBitHandler handler = new FitBitHandler();
-
-        try {
-            handler.init();
-        } catch (ServletException e) {
-            e.printStackTrace();
-        }
-        // handler.service(req, res);
         return StepsRepository.findStepsPerMonth("567");
     }
 
@@ -73,6 +62,14 @@ public class StepsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public void submitSteps(List<ISteps> stepsList) {
+        System.out.println(stepsList);
+    }
+    
+    @POST
+    @Path("/oauth2callBack")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public void callback(List<ISteps> stepsList) {
         System.out.println(stepsList);
     }
 
