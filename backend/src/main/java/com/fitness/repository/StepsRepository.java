@@ -64,9 +64,11 @@ public class StepsRepository {
         // add request header
         con.setRequestMethod("POST");
         con.setRequestProperty("Authorization", "Bearer " + token);
-        // con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-        String urlParameters = "activityId=900013&startTime=12%3A20&durationMillis=600000&date=" + date + "&distance=1.5&distanceUnit=" + steps;
+        // this is for running and it works but need it to work for walking steps.
+        String urlParameters = "activityId=90013" +
+            "&startTime=12%3A20&durationMillis=600000&date=" + date + "&distance=" + steps + "&distanceUnit=steps";
 
         // Send post request
         con.setDoOutput(true);
