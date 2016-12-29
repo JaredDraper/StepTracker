@@ -40,8 +40,6 @@ import { ISteps } from './steps';
 <button (click)="submitSteps()">Submit</button>
 <button>Logout</button>
 <button>Change User</button>
-<a target="_blank" href="https://oauth2server.com/auth?response_type=code&
-  client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&scope=photos">no link here</a>
 	`
 })
 
@@ -114,7 +112,7 @@ export class CalendarComponent {
 		this.month = this.getMonthName();
 		this.year = this.calendarDate.getFullYear().toString();
 		this.calculateNotDays();
-		this.calendarService.getStepsPerMonth(this.calendarDate.getMonth().toString() + "," + this.calendarDate.getFullYear().toString())
+		this.calendarService.getStepsPerMonth(this.calendarDate.getMonth().toString() + "&" + this.calendarDate.getFullYear().toString())
                 .subscribe(stepsList => this.stepsList = stepsList,
                            error => this.errorMessage = <any>error);
 	}

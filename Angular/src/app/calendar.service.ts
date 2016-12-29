@@ -13,7 +13,6 @@ import{ ISteps } from './steps';
 export class CalendarService{
 	private _getStepsUrl = '/fitness/steps/';
 	private _sendStepsUrl = '/fitness/steps/submit/';
-	private _clientSecret = '3e9c79011e4bbf0f956e8cdc10ee9b3e';
 
 	constructor(
 		private _http: Http,
@@ -22,9 +21,9 @@ export class CalendarService{
 	}
 
 	public getStepsPerMonth(date: string) : Observable<ISteps[]> {
-		/*if(this.oauthService.hasValidAccessToken() == false){
+		if(this.oauthService.hasValidAccessToken() == false){
 			this.oauthService.initImplicitFlow();
-		}*/
+		}
 
 		let headers = new Headers({ 'Content-Type': 'application/json' });
 		headers.set('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
@@ -32,10 +31,6 @@ export class CalendarService{
 		return this._http.get(this._getStepsUrl + date, options).map((response: Response) => <ISteps[]>response.json())
 		.do(data => console.log('All: ' + JSON.stringify(data))).catch(this.handleError);
 	}
-
-	/*private authorizeFitbitToken(){
-		localStorage.setItem('currentUser', JSON.stringify({token: token, name:name}));
-	}*/
 
 	private handleError(error: Response){
 		console.error(error);
