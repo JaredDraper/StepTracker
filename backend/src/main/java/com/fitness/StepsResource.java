@@ -26,8 +26,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.fitness.model.ISteps;
-import com.fitness.repository.StepsRepository;
+import com.fitness.model.Steps;
+import com.fitness.model.StepsInfo;
+import com.fitness.repository.HttpRequestHandler;
 
 
 /**
@@ -41,15 +42,29 @@ public class StepsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/test")
-    public List<ISteps> getSteps() {
-        return StepsRepository.findStepsPerMonth("567");
+    public List<Steps> getSteps() {
+    	HttpRequestHandler http = new HttpRequestHandler();
+    	try {
+			return http.sendGet("");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return null;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{monthYear}")
-    public List<ISteps> getSteps(@PathParam("monthYear") String monthYear) {
-        return StepsRepository.findStepsPerMonth(monthYear);
+    public List<Steps> getSteps(@PathParam("monthYear") String monthYear) {
+    	HttpRequestHandler http = new HttpRequestHandler();
+    	try {
+			return http.sendGet(monthYear);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return null;
     }
 
     /**
@@ -61,17 +76,10 @@ public class StepsResource {
     @Path("/submit")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void submitSteps(List<ISteps> stepsList) {
+    public void submitSteps(List<StepsInfo> stepsList) {
         System.out.println(stepsList);
     }
-    
-    @POST
-    @Path("/oauth2callBack")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public void callback(List<ISteps> stepsList) {
-        System.out.println(stepsList);
-    }
+
 
     // @POST
     // @Path("/submit")
