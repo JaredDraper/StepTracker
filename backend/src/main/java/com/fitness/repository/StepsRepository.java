@@ -154,9 +154,9 @@ public class StepsRepository {
 
         // Get the number of days in that month
         int daysInMonth = mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        //String url = "https://api.fitbit.com/1/user/-/Activities/Steps/date/" + year + "-" + month + "-01/" + year + "-" + month + daysInMonth +
+        //String url = "https://api.fitbit.com/1/user/-/activities/steps/date/" + year + "-" + month + "-01/" + year + "-" + month + daysInMonth +
           //  ".json";
-        String url = "https://api.fitbit.com/1/user/-/Activities/Steps/date/2016-12-01/2016-12-31.json";
+        String url = "https://api.fitbit.com/1/user/-/activities/steps/date/2016-12-01/2016-12-31.json";
 
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
