@@ -17,6 +17,7 @@
                 };
                 window.localStorage.setItem("access_token", parameterMap.access_token);
                 window.localStorage.setItem("expires_at", parameterMap.access_token);
+                console.log(parameterMap.access_token);
                 window.location.href = "http://steptracker.org/index.html";
             } else {
                 alert("Problem authenticating");
