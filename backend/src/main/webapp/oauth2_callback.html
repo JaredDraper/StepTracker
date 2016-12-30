@@ -8,15 +8,9 @@
                 parameterMap[responseParameters[i].split("=")[0]] = responseParameters[i].split("=")[1];
             }
             if(parameterMap.access_token !== undefined && parameterMap.access_token !== null) {
-                var imgur = {
-                    oauth: {
-                        access_token: parameterMap.access_token,
-                        expires_in: parameterMap.expires_in,
-                        account_username: parameterMap.account_username
-                    }
-                };
-                window.localStorage.setItem("token", JSON.stringify(imgur));
-                window.location.href = "http://www.steptracker.org/index.html";
+                window.localStorage.setItem("access_token", parameterMap.access_token);
+                window.localStorage.setItem("expires_at", parameterMap.expires_in);
+                window.location.href = "http://steptracker.org/index.html";
             } else {
                 alert("Problem authenticating");
             }

@@ -16,19 +16,20 @@
 
 package com.fitness;
 
+import com.fitness.model.Steps;
+
+import com.fitness.repository.StepsRepository;
+
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import com.fitness.model.Steps;
-import com.fitness.model.StepsInfo;
-import com.fitness.repository.HttpRequestHandler;
 
 
 /**
@@ -38,33 +39,33 @@ import com.fitness.repository.HttpRequestHandler;
  */
 @Path("/steps") //
 public class StepsResource {
-	
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/test")
     public List<Steps> getSteps() {
-    	HttpRequestHandler http = new HttpRequestHandler();
-    	try {
-			return http.sendGet("");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        return null;
+        try {
+            StepsRepository.sendPost("2016-12-29", "432",
+                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjg2OFciLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNDgzMTMwNDQyLCJpYXQiOjE0ODMwNDQwNDJ9.Jxl0nNequ-4B_ZHes2M6_korbL4-oMTwMPKGVAmsHos");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return null; // StepsRepository.findStepsPerMonth("567");
     }
+
+    // @GET
+    // @Produces(MediaType.APPLICATION_JSON)
+    // @Path("/{monthYear}")
+    // public List<ISteps> getSteps(@PathParam("monthYear") String monthYear) {
+    // return StepsRepository.findStepsPerMonth(monthYear);
+    // }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{monthYear}")
-    public List<Steps> getSteps(@PathParam("monthYear") String monthYear) {
-    	HttpRequestHandler http = new HttpRequestHandler();
-    	try {
-			return http.sendGet(monthYear);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        return null;
+    public List<Steps> getSteps(@HeaderParam("Authorization") String token, @PathParam("monthYear") String monthYear) {
+        return StepsRepository.findStepsPerMonth(monthYear, token);
     }
 
     /**
@@ -76,10 +77,17 @@ public class StepsResource {
     @Path("/submit")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void submitSteps(List<StepsInfo> stepsList) {
+    public void submitSteps(List<Steps> stepsList) {
+        try {
+            StepsRepository.sendPost("2016-12-29", "432",
+                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjg2OFciLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNDgzMDM4OTE1LCJpYXQiOjE0ODI5NTY0OTJ9.GfLjc6UKBDSfsQbktWklZXz_BD2-KqS0IOfhTZPc2tM");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         System.out.println(stepsList);
     }
-
 
     // @POST
     // @Path("/submit")

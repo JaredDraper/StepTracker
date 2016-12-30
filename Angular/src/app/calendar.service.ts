@@ -22,9 +22,10 @@ export class CalendarService{
 	}
 
 	public getStepsPerMonth(date: string) : Observable<ISteps[]> {
-		/*if(this.oauthService.hasValidAccessToken() == false){
+		//if(this.oauthService.hasValidAccessToken() == false){
+			if(localStorage.getItem('access_token') == null){
 			this.oauthService.initImplicitFlow();
-		}*/
+		}
 
 		let headers = new Headers({ 'Content-Type': 'application/json' });
 		headers.set('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
