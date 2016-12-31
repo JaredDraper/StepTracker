@@ -1,6 +1,7 @@
 package com.fitness.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.fitness.model.Steps;
 import com.fitness.model.StepsInfo;
 
@@ -37,15 +38,7 @@ public class StepsRepository {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        // List<Steps> stepsList = new ArrayList<Steps>();
-        //
-        // for (int x = 1; x < 32; x++) {
-        // Steps steps = new Steps();
-        // steps.setAmount(x + "345");
-        // stepsList.add(steps);
-        // }
-        //
-        // return stepsList;
+
         return null;
     }
 
@@ -141,12 +134,11 @@ public class StepsRepository {
      * @throws  Exception
      */
     private static List<Steps> sendGet(String monthYear, String token) throws Exception {
-    	token = "Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjg2OFciLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNDgzMTMwNDQxLCJpYXQiOjE0ODMwNzM0NzV9.0-C5CeScjkvDTDV_JIohr37bz76ifhVXTjM5yZ-EDng";
         String[] date = monthYear.split(",");
         String month = date[0];
         String year = date[1];
-        int iYear = Integer.parseInt(month);
-        int iMonth = Integer.parseInt(year);
+        int iYear = Integer.parseInt(year);
+        int iMonth = Integer.parseInt(month);
         int iDay = 1;
 
         // Create a calendar object and set year and month
@@ -154,9 +146,8 @@ public class StepsRepository {
 
         // Get the number of days in that month
         int daysInMonth = mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        //String url = "https://api.fitbit.com/1/user/-/activities/steps/date/" + year + "-" + month + "-01/" + year + "-" + month + daysInMonth +
-          //  ".json";
-        String url = "https://api.fitbit.com/1/user/-/activities/steps/date/2016-12-01/2016-12-31.json";
+        String url = "https://api.fitbit.com/1/user/-/activities/steps/date/" + year + "-" + month + "-01/" + year + "-" + month + "-" +
+            daysInMonth + ".json";
 
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -164,7 +155,9 @@ public class StepsRepository {
         // optional default is GET
         con.setRequestMethod("GET");
 
-        // add request header
+        // add request headers
+        token =
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjhUTVAiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdzZXQgd2FjdCB3bG9jIiwiZXhwIjoxNDgzMTY3MDQxLCJpYXQiOjE0ODMxMzgyNDF9.8GJ7AcmYmt85GpBd20Icwqc8jT3QODjIcOFuSJYZd8s";
         con.setRequestProperty("Authorization", token);
 
         int responseCode = con.getResponseCode();
@@ -179,22 +172,25 @@ public class StepsRepository {
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
         }
-        in.close();
-        
-      //print result
-      		String json = response.toString();
-      		json = json.substring(20,json.length() -1);
-      		ObjectMapper mapper = new ObjectMapper();
-      		StepsInfo[] monthStepsInfo = mapper.readValue(json, StepsInfo[].class);
-      		List<Steps> monthSteps = new ArrayList<Steps>();
-      		for(StepsInfo info : monthStepsInfo){
-      			Steps steps = new Steps();
-      			steps.setAmount(info.getValue());
-      			monthSteps.add(steps);
-      		}
-      		System.out.println(response.toString());
-      		monthStepsInfo.toString();
-      		return monthSteps;
 
+        in.close();
+
+        // print result
+        String json = response.toString();
+        json = json.substring(20, json.length() - 1);
+
+        ObjectMapper mapper = new ObjectMapper();
+        StepsInfo[] monthStepsInfo = mapper.readValue(json, StepsInfo[].class);
+        List<Steps> monthSteps = new ArrayList<Steps>();
+
+        for (StepsInfo info : monthStepsInfo) {
+            Steps steps = new Steps();
+            steps.setAmount(info.getValue());
+            monthSteps.add(steps);
+        }
+
+        System.out.println(response.toString());
+        monthStepsInfo.toString();
+        return monthSteps;
     }
 }

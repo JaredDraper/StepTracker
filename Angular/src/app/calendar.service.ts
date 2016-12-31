@@ -13,7 +13,6 @@ import{ ISteps } from './steps';
 export class CalendarService{
 	private _getStepsUrl = '/fitness/steps/';
 	private _sendStepsUrl = '/fitness/steps/submit/';
-	private _clientSecret = '3e9c79011e4bbf0f956e8cdc10ee9b3e';
 
 	constructor(
 		private _http: Http,
@@ -22,9 +21,12 @@ export class CalendarService{
 	}
 
 	public getStepsPerMonth(date: string) : Observable<ISteps[]> {
-		//if(this.oauthService.hasValidAccessToken() == false){
-			if(localStorage.getItem('access_token') == null){
+		if(this.oauthService.hasValidAccessToken() != false){
+			console.log("logged in");
+		}
+		if(window.localStorage.getItem('access_token') == null){
 			this.oauthService.initImplicitFlow();
+			return;
 		}
 
 		let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -49,25 +51,25 @@ export class CalendarService{
 		let headers = new Headers({ 'Content-Type': 'application/json' });
 		headers.set('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
         let options = new RequestOptions({ headers: headers });
-        let body = JSON.stringify(updatedSteps);
+        let body = JSON.stringify("updatedSteps");
 
-        return this._http.put(this._sendStepsUrl, body, options)
+        return this._http.put('http://localhost:8080/fitness/steps/submit', body, options)
                     .map((res: Response) => res.json())
                     .catch((error:any) => Observable.throw(error.json().error || 'Server error')); 
   	}
 
-  		public updateString(string: string): Observable<string> {
+  	public updateString(string: string): Promise<ISteps> {
 		console.log("Got here");
 		let headers = new Headers({ 'Content-Type': 'application/json' });
+		headers.set('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
         let options = new RequestOptions({ headers: headers });
-        let body = JSON.stringify(string);
+        let body = JSON.stringify('4000');
         console.log("Got here2");
 
 
-        return this._http.post(this._sendStepsUrl, {string}, options)  //body, options)
-        .map(this.extractData).catch(this.handleError);
-                    //.map((res: Response) => res.json())
-                    //.catch((error:any) => Observable.throw(error.json().error || 'Server error')); 
+        return this._http.post('http://localhost:8080/fitness/steps/testpost', JSON.stringify{'4000': amount}, options)  //body, options)
+                    .toPromise().then(res => res.json().data)
+    				.catch(this.handleError);
   	}
 
   	private extractData(res: Response) {

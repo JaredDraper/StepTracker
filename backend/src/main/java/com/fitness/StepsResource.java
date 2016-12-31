@@ -41,17 +41,12 @@ import javax.ws.rs.core.MediaType;
 public class StepsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/test")
+    @Path("/testget")
     public List<Steps> getSteps() {
-        try {
-            StepsRepository.sendPost("2016-12-29", "432",
-                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjg2OFciLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNDgzMTMwNDQyLCJpYXQiOjE0ODMwNDQwNDJ9.Jxl0nNequ-4B_ZHes2M6_korbL4-oMTwMPKGVAmsHos");
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return null; // StepsRepository.findStepsPerMonth("567");
+        String token =
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjg2OFciLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNDgzMTMwNDQyLCJpYXQiOjE0ODMwNDQwNDJ9.Jxl0nNequ-4B_ZHes2M6_korbL4-oMTwMPKGVAmsHos";
+        String monthYear = "12,2016";
+        return StepsRepository.findStepsPerMonth(monthYear, token);
     }
 
     // @GET
@@ -66,6 +61,24 @@ public class StepsResource {
     @Path("/{monthYear}")
     public List<Steps> getSteps(@HeaderParam("Authorization") String token, @PathParam("monthYear") String monthYear) {
         return StepsRepository.findStepsPerMonth(monthYear, token);
+    }
+
+    /**
+     * @return
+     */
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/testpost")
+    public Steps postSteps() {
+        try {
+            StepsRepository.sendPost("2016-12-29", "432",
+                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjg2OFciLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNDgzMTMwNDQyLCJpYXQiOjE0ODMwNDQwNDJ9.Jxl0nNequ-4B_ZHes2M6_korbL4-oMTwMPKGVAmsHos");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return new Steps(); // StepsRepository.findStepsPerMonth("567");
     }
 
     /**
