@@ -1,5 +1,8 @@
 /* Defines the product entity */
-export interface ISteps {
+export class Steps {
     amount: string;
+     constructor(amount: string) {
+        this.amount = amount;
+    }
 }
 

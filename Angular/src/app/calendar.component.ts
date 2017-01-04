@@ -1,7 +1,7 @@
 import{Component, OnInit} from '@angular/core';
 import{CalendarService} from './calendar.service';
 import{AutoGrowDirective} from './auto-grow.directive';
-import { ISteps } from './steps';
+import { Steps } from './steps';
 
 @Component({
 	selector: 'days',
@@ -32,13 +32,14 @@ import { ISteps } from './steps';
 
 <ul class="days"> 
   <li *ngFor="let notDay of notDays">
-  <li *ngFor="let day of days">{{ day }} 
-  <input type="text" *ngIf="stepsList" class="error" id="{{ day }}" value="{{ stepsList[day-1].amount }}">
+  <li *ngFor="let day of days"><font size="3">{{ day }} </font>
+  <input type="text" size="5" style="color:darkblue;" *ngIf="oldStepsList" class="error" id="{{ day }}" [(ngModel)]="oldStepsList[day-1].amount" disabled>
+  <input type="text" size="5" *ngIf="stepsList" class="error" id="{{ day }}" [(ngModel)]="stepsList[day-1].amount">
   </li>
 </ul>
 <br>
 <button (click)="submitSteps()">Submit</button>
-<button>Logout</button>
+<button (click)="logout()">Logout</button>
 	`
 })
 
@@ -48,7 +49,8 @@ export class CalendarComponent {
 	notDays: string[];
 	month: string;
 	year: string;
-	stepsList: ISteps[];
+	oldStepsList: Steps[];
+	stepsList: Steps[];
 	errorMessage: string;
 	calendarDate: Date;
 	monthNames: Array<string> = [
@@ -71,8 +73,12 @@ export class CalendarComponent {
 	 // pass in any date as parameter anyDateInMonth
 	daysInMonth() {
 		this.days = [];
+		this.stepsList = [];
+		this.oldStepsList = [];
 		for (let i = 1; i <= new Date(this.calendarDate.getFullYear(), this.calendarDate.getMonth() + 1, 0).getDate(); i++) {
 			this.days.push((i).toString());
+			this.stepsList.push(new Steps("0"));
+			this.oldStepsList.push(new Steps("0"));
 		}
 	}
 
@@ -95,18 +101,18 @@ export class CalendarComponent {
 	}
 
 	submitSteps() {
-		/*for (let day of this.days){
-			let newCount = (<HTMLInputElement>document.getElementById(day));
-			this.stepsList[day].steps = newCount.value;
-		}
-		if (!this.stepsList) { return; }*/
-		//this.calendarService.updateStepsPerMonth(this.stepsList);
-		//this.calendarService.updateStepsPerMonth('hope');
-		this.calendarService.updateString('hope').then(ISteps => {
-      this.stepsList.push(ISteps);
-    });
-                //.subscribe(stepsList => this.stepsList.push(stepsList),
-                 //          error => this.errorMessage = <any>error);
+		if (!this.stepsList) { return; }
+		this.calendarService.updateStepsPerMonth(this.stepsList, (this.calendarDate.getMonth()+1).toString() + "," + this.calendarDate.getFullYear().toString() + "," + this.days.length)
+                .subscribe(oldStepsList => this.oldStepsList = oldStepsList,
+                          error => this.errorMessage = <any>error);
+     this.populateScreen();
+	}
+
+	private logout() {
+		window.localStorage.removeItem('access_token');
+        window.localStorage.removeItem('expires_at');
+        this.populateScreen();
+        //navigate to login screen when it is made.
 	}
 
 	populateScreen() {
@@ -114,8 +120,9 @@ export class CalendarComponent {
 		this.month = this.getMonthName();
 		this.year = this.calendarDate.getFullYear().toString();
 		this.calculateNotDays();
-		this.calendarService.getStepsPerMonth((this.calendarDate.getMonth() + 1).toString() + "," + this.calendarDate.getFullYear().toString())
-                .subscribe(stepsList => this.stepsList = stepsList,
+		//this.oldStepsList = this.calendarService.getTestStepsPerMonth("test");
+		this.calendarService.getStepsPerMonth((this.calendarDate.getMonth()+1).toString() + "," + this.calendarDate.getFullYear().toString() + "," + this.days.length)
+                .subscribe(oldStepsList => this.oldStepsList = oldStepsList,
                            error => this.errorMessage = <any>error);
 	}
 

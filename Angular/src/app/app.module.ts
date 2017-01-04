@@ -7,9 +7,10 @@ import { CalendarComponent } from './calendar.component';
 import { AutoGrowDirective } from './auto-grow.directive';
 import { CalendarService } from './calendar.service';
 import { OAuthService } from 'angular2-oauth2/oauth-service';
+import { FormsModule }   from '@angular/forms';
 
 @NgModule({
-  imports:      [ BrowserModule, HttpModule ],
+  imports:      [ BrowserModule, HttpModule, FormsModule ],
   declarations: [ AppComponent, CalendarComponent, AutoGrowDirective],
   bootstrap:    [ AppComponent ],
   providers: [CalendarService, OAuthService]

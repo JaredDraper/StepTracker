@@ -20,6 +20,10 @@ import com.fitness.model.Steps;
 
 import com.fitness.repository.StepsRepository;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -39,22 +43,6 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/steps") //
 public class StepsResource {
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/testget")
-    public List<Steps> getSteps() {
-        String token =
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjg2OFciLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNDgzMTMwNDQyLCJpYXQiOjE0ODMwNDQwNDJ9.Jxl0nNequ-4B_ZHes2M6_korbL4-oMTwMPKGVAmsHos";
-        String monthYear = "12,2016";
-        return StepsRepository.findStepsPerMonth(monthYear, token);
-    }
-
-    // @GET
-    // @Produces(MediaType.APPLICATION_JSON)
-    // @Path("/{monthYear}")
-    // public List<ISteps> getSteps(@PathParam("monthYear") String monthYear) {
-    // return StepsRepository.findStepsPerMonth(monthYear);
-    // }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -64,42 +52,26 @@ public class StepsResource {
     }
 
     /**
-     * @return
-     */
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/testpost")
-    public Steps postSteps() {
-        try {
-            StepsRepository.sendPost("2016-12-29", "432",
-                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjg2OFciLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNDgzMTMwNDQyLCJpYXQiOjE0ODMwNDQwNDJ9.Jxl0nNequ-4B_ZHes2M6_korbL4-oMTwMPKGVAmsHos");
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return new Steps(); // StepsRepository.findStepsPerMonth("567");
-    }
-
-    /**
      * Creates a new StepsResource object.
      *
      * @param  stepsList  text  stepsList
+     * @throws Exception 
      */
     @POST
     @Path("/submit")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void submitSteps(List<Steps> stepsList) {
+    public List<Steps> submitSteps(@HeaderParam("Authorization") String token, List<Steps> monthlySteps){
+    	String[] info = token.split("&");
+    	List<Steps> updatedSteps = new ArrayList<Steps>();
         try {
-            StepsRepository.sendPost("2016-12-29", "432",
-                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjg2OFciLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNDgzMDM4OTE1LCJpYXQiOjE0ODI5NTY0OTJ9.GfLjc6UKBDSfsQbktWklZXz_BD2-KqS0IOfhTZPc2tM");
+        	updatedSteps = StepsRepository.submitMonthlySteps(info[0], info[1], monthlySteps);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        System.out.println(stepsList);
+        return updatedSteps;
     }
 
     // @POST

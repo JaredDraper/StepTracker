@@ -1,5 +1,7 @@
 package com.fitness.repository;
 
+import org.junit.Test;
+
 /**
  * DOCUMENT ME!
  *
@@ -9,8 +11,9 @@ public class TestRepository {
     /**
      * @throws  Exception
      */
+	@Test
     public void testSendPost() throws Exception {
-//        StepsRepository.sendPost("2016-12-29", "432",
-//            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjg2OFciLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNDgzMDM4OTE1LCJpYXQiOjE0ODI5NTY0OTJ9.GfLjc6UKBDSfsQbktWklZXz_BD2-KqS0IOfhTZPc2tM");
+        StepsRepository.sendPost("2017-01-02", "4320",
+            "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzN1RHRkgiLCJhdWQiOiIyMjg3SDkiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3YWN0IiwiZXhwIjoxNDgzNTQ0OTE4LCJpYXQiOjE0ODM1MDg4NDN9.NmyFZ8L4lA8E52o-tOA8UJwEXtm0LISzeuItz553CB0");
     }
 }
