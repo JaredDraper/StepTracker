@@ -11,7 +11,10 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fitness.StepsResource;
 import com.fitness.model.Steps;
 import com.fitness.model.StepsInfo;
 
@@ -22,6 +25,7 @@ import com.fitness.model.StepsInfo;
  * @author  JDraper
  */
 public class StepsRepository {
+	final static Logger logger = Logger.getLogger(StepsRepository.class);
     /**
      * @param   monthYear
      * @param   token
@@ -72,6 +76,7 @@ public class StepsRepository {
         System.out.println("\nSending 'POST' request to URL : " + url);
         System.out.println("Post parameters : " + urlParameters);
         System.out.println("Response Code : " + responseCode);
+        logger.warn("Response Code : " + responseCode);
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));

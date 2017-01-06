@@ -16,13 +16,6 @@
 
 package com.fitness;
 
-import com.fitness.model.Steps;
-
-import com.fitness.repository.StepsRepository;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +28,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.fitness.model.Steps;
+import com.fitness.repository.StepsRepository;
+
 
 /**
  * DOCUMENT ME!
@@ -43,6 +39,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/steps") //
 public class StepsResource {
+	
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
