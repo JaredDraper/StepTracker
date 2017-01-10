@@ -12,6 +12,7 @@ import{ Steps } from './steps';
 export class CalendarService{
 	private _getStepsUrl = '/fitness/steps/';
 	private _sendStepsUrl = '/fitness/steps/submit/';
+	private _fitbitPostURL = 'https://api.fitbit.com/1/user/-/activities.json?activityId=900013&startTime=12%3A20&durationMillis=600000&date=2017-01-07&distance=8745&distanceUnit=steps';
 
 	constructor(
 		private _http: Http,
@@ -27,12 +28,13 @@ export class CalendarService{
 	}
 
 	public getStepsPerMonth(date: string) : Observable<Steps[]> {
-		if(this.oauthService.hasValidAccessToken() == false){
+		//if(this.oauthService.hasValidAccessToken() == false){
+		//	this.oauthService.initImplicitFlow();
+		//	return;
+		//}
+		if(window.localStorage.getItem('access_token') == null){
 			this.oauthService.initImplicitFlow();
 			return;
-		}
-		if(window.localStorage.getItem('access_token') == null){
-			
 		}
 
 		let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -41,6 +43,7 @@ export class CalendarService{
 		return this._http.get(this._getStepsUrl + date, options).map((response: Response) => <Steps[]>response.json())
 		.do(data => console.log('All: ' + JSON.stringify(data))).catch(this.handleError);
 	}
+
 
 
 	private handleError(error: Response){
@@ -52,13 +55,29 @@ export class CalendarService{
 		console.log("Got here");
 
 		let headers = new Headers({ 'Content-Type': 'application/json' });
-		headers.set('Authorization', date + '&' + 'Bearer ' + this.oauthService.getAccessToken());		headers.set('Date', date);
+		headers.set('Authorization', date + '&' + 'Bearer ' + this.oauthService.getAccessToken());
         let options = new RequestOptions({ headers: headers });
         let body = JSON.stringify(updatedSteps);
 
         return this._http.post(this._sendStepsUrl, body, options).map((response: Response) => <Steps[]>response.json())
 		.do(data => console.log('All: ' + JSON.stringify(data))).catch(this.handleError);
   	}
+
+  	public updateSteps(updatedSteps: string, date: string){
+		console.log("Got here");
+
+		let headers = new Headers({ 'Accept-Language': 'en-US,en;q=0.5' });
+		headers.set('Authorization', 'Bearer ' + this.oauthService.getAccessToken());
+        let options = new RequestOptions({ headers: headers });
+        //let urlParameters:string = 'activityId=90013&startTime=12%3A20&durationMillis=600000&date=' + '2016-01-06' + '&distance=' + updatedSteps.amount() + '&distanceUnit=steps';
+
+            this._http.post(this._fitbitPostURL, null, headers)
+            .map((response: Response) => console.log(response.status));
+        
+		return new Steps('2000');
+  	}
+
+
 
   	private extractData(res: Response) {
   		let body = res.json();

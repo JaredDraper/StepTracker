@@ -107,6 +107,14 @@ export class CalendarComponent {
                           error => this.errorMessage = <any>error);
      this.populateScreen();
 	}
+	// submitSteps(){
+	// 	for (let i = this.stepsList.length - 1; i >= 0; i--) {
+	// 		if(Number(this.stepsList[i].amount) > 0){
+
+	// 			this.calendarService.updateSteps(this.stepsList[i].amount, (this.calendarDate.getMonth()+1).toString() + "-" + this.calendarDate.getFullYear().toString() + "-" + i);
+	// 		}
+	// 	}
+	// }
 
 	private logout() {
 		window.localStorage.removeItem('access_token');

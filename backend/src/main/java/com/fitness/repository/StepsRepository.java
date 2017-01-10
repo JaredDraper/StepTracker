@@ -6,15 +6,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.apache.log4j.Logger;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fitness.StepsResource;
 import com.fitness.model.Steps;
 import com.fitness.model.StepsInfo;
 
@@ -25,7 +23,8 @@ import com.fitness.model.StepsInfo;
  * @author  JDraper
  */
 public class StepsRepository {
-	final static Logger logger = Logger.getLogger(StepsRepository.class);
+	final static Logger logger = Logger.getLogger(StepsRepository.class.getName());
+
     /**
      * @param   monthYear
      * @param   token
@@ -76,7 +75,12 @@ public class StepsRepository {
         System.out.println("\nSending 'POST' request to URL : " + url);
         System.out.println("Post parameters : " + urlParameters);
         System.out.println("Response Code : " + responseCode);
-        logger.warn("Response Code : " + responseCode);
+        logger.log(Level.WARNING, "Response Code : " + responseCode + ": " + urlParameters);
+        logger.info("Response Code : " + responseCode + ": " + urlParameters);
+        
+        if(responseCode != 200){
+        	throw new Exception("" + responseCode);
+        }
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
@@ -102,7 +106,7 @@ public class StepsRepository {
      */
     public static List<Steps> submitMonthlySteps(String monthYear, String token, List<Steps> monthlySteps) throws Exception {
         String[] date = monthYear.split(",");
-        String month = date[0];
+        String month = date[0].length() == 1? "0" + date[0] : date[0];
         String year = date[1];
         String daysInMonth = date[2];   
 
@@ -185,6 +189,8 @@ public class StepsRepository {
             monthSteps.add(steps);
         }
 
+        logger.log(Level.WARNING, "Response Code : " + response.toString());
+        logger.info("Response Code : " + responseCode + response.toString());
         System.out.println(response.toString());
         monthStepsInfo.toString();
         return monthSteps;
